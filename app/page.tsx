@@ -9,8 +9,16 @@ export default function Home() {
         <h1 className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-amber-600">
           Global Reserve Currencies Timeline
         </h1>
+        <hr className="mt-4 mb-4" />
         <p className="text-xl text-muted-foreground">1450 - Present</p>
       </header>
+
+
+      <p className="text-2xl text-center text-muted-foreground">
+      สำรวจวิวัฒนาการของ global reserve currencies ตลอดหลายศตวรรษ — ตั้งแต่ยุคการเดินเรือของโปรตุเกสจนถึง dollar ยุคใหม่ — และสิ่งที่การเปลี่ยนผ่านแต่ละครั้งสะท้อนถึงอำนาจทางเศรษฐกิจและอิทธิพลระดับโลก
+      </p>
+
+
 
       <Tabs defaultValue="timeline" className="w-full">
         {/* <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">

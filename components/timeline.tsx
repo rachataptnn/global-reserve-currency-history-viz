@@ -9,7 +9,7 @@ import { reserveCurrencyData } from "@/lib/data-th"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { motion } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Heading1 } from "lucide-react"
 
 export function Timeline() {
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null)
@@ -27,12 +27,6 @@ export function Timeline() {
 
   const handleOpenDetails = (id: string) => {
     setDetailsOpen(id)
-  }
-
-  // Function to handle image loading errors
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    console.log("Image failed to load:", e.currentTarget.src)
-    e.currentTarget.src = `/placeholder.svg?height=160&width=320&text=${encodeURIComponent("Currency Image")}`
   }
 
   // Calculate the percentage position for each timeline point
@@ -74,31 +68,18 @@ export function Timeline() {
     }
   }
 
-  // Scroll buttons handlers
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      container.scrollBy({
-        left: -300,
-        behavior: "smooth",
-      })
-    }
-  }
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      container.scrollBy({
-        left: 300,
-        behavior: "smooth",
-      })
-    }
-  }
-
+  
   return (
     <div className="relative">
       {/* Minimal Timeline visualization */}
-      <div className="relative mb-16 mt-12 px-4">
+      {/* <br></br> */}
+      {/* <h1 className="mt-24">TIMELINE</h1> */}
+      
+      <h1 className="text-2xl font-bold mt-12 mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-amber-600">
+        Timeline of Global Reserve Currencies
+      </h1>
+      {/* <hr /> */}
+      <div className="relative mt-12 px-4">
         {/* Timeline container with relative positioning */}
         <div className="relative h-28">
           {/* Timeline base line with gradient */}
@@ -125,7 +106,7 @@ export function Timeline() {
                       ? "w-1 h-12 bg-primary shadow-md"
                       : isHovered
                         ? "w-0.5 h-10 bg-primary/80"
-                        : "w-0.5 h-8 bg-muted-foreground/70"
+                        : "w-0.5 h-0 bg-muted-foreground/70"
                   }`}
                 ></div>
 
@@ -161,7 +142,7 @@ export function Timeline() {
             className="absolute top-0 transform -translate-x-1/2"
             style={{ left: `${calculatePosition(reserveCurrencyData.length)}%` }}
           >
-            <div className="w-0.5 h-8 mx-auto bg-muted-foreground/70"></div>
+            {/* <div className="w-0.5 h-8 mx-auto bg-muted-foreground/70"></div> */}
             <div className="mt-1 text-center">
               <span className="text-sm font-medium px-2 py-1 rounded-md text-muted-foreground">Present</span>
             </div>
@@ -169,19 +150,10 @@ export function Timeline() {
         </div>
       </div>
 
-      {/* Horizontal scroll controls */}
-      <div className="flex justify-between mb-4">
-        <Button variant="outline" size="icon" onClick={scrollLeft} className="rounded-full shadow-sm">
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        <Button variant="outline" size="icon" onClick={scrollRight} className="rounded-full shadow-sm">
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      </div>
-
+      
       {/* Horizontally scrollable currency cards */}
       <div
-        className="relative overflow-x-auto pb-4 hide-scrollbar"
+        className="relative overflow-x-auto pt-4 pb-4 pr-8 pl-8 hide-scrollbar"
         ref={scrollContainerRef}
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
@@ -219,10 +191,10 @@ export function Timeline() {
                     </div>
                     <div className="relative w-full h-40 mb-4 rounded-md overflow-hidden bg-muted group">
                       <img
-                        src={currency.image || "/placeholder.svg"}
+                        src={currency.image}
                         alt={`${currency.currency} image`}
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                        onError={handleImageError}
+                        
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
@@ -284,10 +256,10 @@ export function Timeline() {
                     <div className="space-y-4 p-1">
                       <div className="relative w-full h-60 rounded-md overflow-hidden bg-muted">
                         <img
-                          src={currency.image || "/placeholder.svg"}
+                          src={currency.image }
                           alt={`${currency.currency} image`}
                           className="object-cover w-full h-full"
-                          onError={handleImageError}
+                          
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-50"></div>
                       </div>
