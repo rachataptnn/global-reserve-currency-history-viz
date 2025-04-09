@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { reserveCurrencyData } from "@/lib/data"
+import { reserveCurrencyData } from "@/lib/data-th"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { motion } from "framer-motion"
@@ -29,7 +29,12 @@ export function Timeline() {
     setDetailsOpen(id)
   }
 
-  
+  // Function to handle image loading errors
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    console.log("Image failed to load:", e.currentTarget.src)
+    e.currentTarget.src = `/placeholder.svg?height=160&width=320&text=${encodeURIComponent("Currency Image")}`
+  }
+
   // Calculate the percentage position for each timeline point
   const calculatePosition = (index: number) => {
     const totalItems = reserveCurrencyData.length
@@ -59,7 +64,7 @@ export function Timeline() {
     }
   }
 
-  // Handle timeline dot click
+  // Handle timeline marker click
   const handleTimelineClick = (id: string) => {
     const newSelectedPeriod = id === selectedPeriod ? null : id
     setSelectedPeriod(newSelectedPeriod)
@@ -92,14 +97,14 @@ export function Timeline() {
 
   return (
     <div className="relative">
-      {/* Centered Timeline visualization */}
+      {/* Minimal Timeline visualization */}
       <div className="relative mb-16 mt-12 px-4">
         {/* Timeline container with relative positioning */}
         <div className="relative h-28">
           {/* Timeline base line with gradient */}
-          <div className="absolute h-2 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-amber-500 top-6 left-0 rounded-full shadow-md"></div>
+          <div className="absolute h-1 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-amber-500 top-6 left-0 rounded-full shadow-sm"></div>
 
-          {/* Timeline points */}
+          {/* Timeline markers */}
           {reserveCurrencyData.map((currency, index) => {
             const isSelected = selectedPeriod === currency.id
             const isHovered = hoveredPeriod === currency.id
@@ -107,30 +112,32 @@ export function Timeline() {
             return (
               <div
                 key={currency.id}
-                className="absolute top-6 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                className="absolute top-0 transform -translate-x-1/2 cursor-pointer"
                 style={{ left: `${calculatePosition(index)}%` }}
                 onMouseEnter={() => setHoveredPeriod(currency.id)}
                 onMouseLeave={() => setHoveredPeriod(null)}
                 onClick={() => handleTimelineClick(currency.id)}
               >
-                {/* Timeline point/node centered on the line */}
+                {/* Timeline marker - vertical line */}
                 <div
-                  className={`rounded-full flex items-center justify-center transition-all duration-300 ${
+                  className={`mx-auto transition-all duration-300 ${
                     isSelected
-                      ? "w-8 h-8 bg-primary border-4 border-background shadow-lg z-20"
+                      ? "w-1 h-12 bg-primary shadow-md"
                       : isHovered
-                        ? "w-7 h-7 bg-primary/80 border-2 border-background shadow-md z-10"
-                        : "w-6 h-6 bg-muted-foreground/70 border-2 border-background hover:bg-muted-foreground"
+                        ? "w-0.5 h-10 bg-primary/80"
+                        : "w-0.5 h-8 bg-muted-foreground/70"
                   }`}
-                >
-                  {isSelected && <div className="w-2 h-2 rounded-full bg-background"></div>}
-                </div>
+                ></div>
 
                 {/* Year label */}
-                <div className="mt-8 text-center">
+                <div className="mt-1 text-center">
                   <span
                     className={`text-sm font-medium px-2 py-1 rounded-md transition-all duration-300 ${
-                      isSelected || isHovered ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground"
+                      isSelected
+                        ? "bg-primary text-primary-foreground font-semibold"
+                        : isHovered
+                          ? "bg-primary/10 text-primary font-semibold"
+                          : "text-muted-foreground"
                     }`}
                   >
                     {currency.startYear}
@@ -151,13 +158,11 @@ export function Timeline() {
 
           {/* Present day marker */}
           <div
-            className="absolute top-6 transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute top-0 transform -translate-x-1/2"
             style={{ left: `${calculatePosition(reserveCurrencyData.length)}%` }}
           >
-            <div className="w-6 h-6 rounded-full bg-muted-foreground/70 border-2 border-background flex items-center justify-center">
-              <div className="w-2 h-2 rounded-full bg-background"></div>
-            </div>
-            <div className="mt-8 text-center">
+            <div className="w-0.5 h-8 mx-auto bg-muted-foreground/70"></div>
+            <div className="mt-1 text-center">
               <span className="text-sm font-medium px-2 py-1 rounded-md text-muted-foreground">Present</span>
             </div>
           </div>
@@ -185,7 +190,7 @@ export function Timeline() {
             <div
               key={currency.id}
               ref={(el) => {cardRefs.current[currency.id] = el}}
-              className="w-[350px] flex-shrink-0 mt-[15px]"
+              className="w-[350px] flex-shrink-0"
             >
               <motion.div
                 initial={{ opacity: 0.8, y: 20 }}
@@ -214,10 +219,10 @@ export function Timeline() {
                     </div>
                     <div className="relative w-full h-40 mb-4 rounded-md overflow-hidden bg-muted group">
                       <img
-                        src={currency.image}
+                        src={currency.image || "/placeholder.svg"}
                         alt={`${currency.currency} image`}
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                        // onError={handleImageError}
+                        onError={handleImageError}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
@@ -279,10 +284,10 @@ export function Timeline() {
                     <div className="space-y-4 p-1">
                       <div className="relative w-full h-60 rounded-md overflow-hidden bg-muted">
                         <img
-                          src={currency.image}
+                          src={currency.image || "/placeholder.svg"}
                           alt={`${currency.currency} image`}
                           className="object-cover w-full h-full"
-                          // onError={handleImageError}
+                          onError={handleImageError}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-50"></div>
                       </div>

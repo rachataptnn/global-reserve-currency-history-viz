@@ -1,8 +1,8 @@
 "use client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-// import { reserveCurrencyData } from "@/lib/data"
-import { reserveCurrencyDataThai } from "@/lib/data-th"
+// import { reserveCurrencyData } from "@/lib/data-th"
+import { reserveCurrencyData } from "@/lib/data-th"
 
 import Image from "next/image"
 import { useState } from "react"
@@ -18,7 +18,7 @@ export function CurrencyInfo() {
 
   return (
     <div className="space-y-8">
-      {reserveCurrencyDataThai.map((currency) => (
+      {reserveCurrencyData.map((currency) => (
         <Card key={currency.id} className="overflow-hidden">
           <CardHeader className="bg-muted/50">
             <div className="flex justify-between items-center">
@@ -76,7 +76,7 @@ export function CurrencyInfo() {
         <Dialog open={!!detailsOpen} onOpenChange={() => setDetailsOpen(null)}>
           <DialogContent className="max-w-3xl">
             {(() => {
-              const currency = reserveCurrencyDataThai.find((c) => c.id === detailsOpen)
+              const currency = reserveCurrencyData.find((c) => c.id === detailsOpen)
               if (!currency) return null
 
               return (
