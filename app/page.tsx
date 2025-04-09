@@ -1,6 +1,6 @@
 import { Timeline } from "@/components/timeline"
 import { CurrencyInfo } from "@/components/currency-info"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
 
 export default function Home() {
   return (
@@ -21,10 +21,6 @@ export default function Home() {
 
 
       <Tabs defaultValue="timeline" className="w-full">
-        {/* <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
-          <TabsTrigger value="timeline">Timeline View</TabsTrigger>
-          <TabsTrigger value="details">Detailed View</TabsTrigger>
-        </TabsList> */}
         <TabsContent value="timeline" className="mt-6">
           <Timeline />
         </TabsContent>

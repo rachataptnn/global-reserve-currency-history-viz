@@ -9,7 +9,6 @@ import { reserveCurrencyData } from "@/lib/data-th"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { motion } from "framer-motion"
-import { ChevronLeft, ChevronRight, Heading1 } from "lucide-react"
 
 export function Timeline() {
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null)
