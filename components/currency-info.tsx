@@ -1,7 +1,9 @@
 "use client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { reserveCurrencyData } from "@/lib/data"
+// import { reserveCurrencyData } from "@/lib/data"
+import { reserveCurrencyDataThai } from "@/lib/data-th"
+
 import Image from "next/image"
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
@@ -16,7 +18,7 @@ export function CurrencyInfo() {
 
   return (
     <div className="space-y-8">
-      {reserveCurrencyData.map((currency) => (
+      {reserveCurrencyDataThai.map((currency) => (
         <Card key={currency.id} className="overflow-hidden">
           <CardHeader className="bg-muted/50">
             <div className="flex justify-between items-center">
@@ -37,7 +39,7 @@ export function CurrencyInfo() {
             <div className="grid md:grid-cols-3 gap-6">
               <div className="relative w-full h-40 rounded-md overflow-hidden md:col-span-1">
                 <Image
-                  src={currency.image || "/placeholder.svg"}
+                  src={currency.image}
                   alt={`${currency.currency} image`}
                   fill
                   className="object-cover"
@@ -74,7 +76,7 @@ export function CurrencyInfo() {
         <Dialog open={!!detailsOpen} onOpenChange={() => setDetailsOpen(null)}>
           <DialogContent className="max-w-3xl">
             {(() => {
-              const currency = reserveCurrencyData.find((c) => c.id === detailsOpen)
+              const currency = reserveCurrencyDataThai.find((c) => c.id === detailsOpen)
               if (!currency) return null
 
               return (
@@ -91,7 +93,7 @@ export function CurrencyInfo() {
                     <div className="space-y-4 p-1">
                       <div className="relative w-full h-60 rounded-md overflow-hidden">
                         <Image
-                          src={currency.image || "/placeholder.svg"}
+                          src={currency.image}
                           alt={`${currency.currency} image`}
                           fill
                           className="object-cover"
